@@ -1,0 +1,19 @@
+<!-- <div>
+	<form #templateForm="ngForm" (ngSubmit)="onSubmit()">
+		<div>Name: <input name="name" ngModel required /></div>
+		<div>Age: <input name="age" ngModel /></div>
+		<div>City: <input name="city" ngModel /></div>
+		<button type="submit">Submit</button>
+		<button (click)="templateForm.reset()">Cancel</button>
+	</form>
+</div> -->
+
+<div>
+	<form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+		<div>Name: <input formControlName="name" /></div>
+		<div>Age: <input formControlName="age" /></div>
+		<div>City: <input formControlName="city" /></div>
+		<button type="submit">Submit</button>
+		<button>Cancel</button>
+	</form>
+</div>
