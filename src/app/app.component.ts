@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
 // import { NgForm } from '@angular/forms';
 
 @Component({
@@ -9,29 +9,31 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 })
 export class AppComponent {
 	title = 'angular-forms';
-	// @ViewChild('templateForm') templateForm!: NgForm;
 
-	// onSubmit() {
-	// 	console.log(this.templateForm.value);
-	// 	this.templateForm.reset();
-	// }
+	itemsTitles = [
+		'Category',
+		'Item',
+		'GL Code',
+		'Amount',
+		'Sales Tax',
+		'Total'
+	]
 
-	// reactiveForm: FormGroup = new FormGroup({
-	// 	name: new FormControl('', Validators.required, Validators.pattern('^[a-zA-Z]+$')),
-	// 	age: new FormControl(''),
-	// 	city: new FormControl('')
-	// });
+	localItems = [
+		{
+			id: 1,
+			name: 'Test Category',
+			items: [{
+				id: 1,
+				name: 'Test Item',
+				glCode: null,
+				amount: null,
+				salesTax: null
+			}]
+		}
+	]
 
-	reactiveForm!: FormGroup
-
-	constructor(private formBuilder: FormBuilder) {
-		this.reactiveForm = this.formBuilder.group({
-			name: [''],
-			age: [''],
-			city: ['']
-		})
-	}
-	onSubmit() {
+	onSubmit(form: NgForm) {
 		// console.log(this.reactiveForm.value);
 		// this.reactiveForm.reset();
 	}
