@@ -19,7 +19,7 @@ export class AppComponent {
 		'Total'
 	]
 
-	localItems = [
+	localItems: any = [
 		{
 			id: 1,
 			name: 'Test Category',
@@ -33,8 +33,14 @@ export class AppComponent {
 		}
 	]
 
+	salesTaxArray = [
+		{ id: 1, name: 'GST', value: 0.1 },
+		{ id: 2, name: 'PST', value: 0.15 },
+		{ id: 3, name: 'HST', value: 0.2 }
+	]
+
 	onSubmit(form: NgForm) {
-		// console.log(this.reactiveForm.value);
+		console.log(form.value);
 		// this.reactiveForm.reset();
 	}
 }

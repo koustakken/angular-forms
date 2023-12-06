@@ -17,14 +17,44 @@
 				<tbody *ngFor="let item of localItems">
 					<tr>
 						<td title="Category">
-							<input type="text" class="form-control" name="cat_{{item.id}}" #Category="ngModel" ngModel
-								required [ngClass]="{'has-error': Category.invalid && Category.touched}">
+							<input type="text" class="form-control" name="cat_{{item.id}}" #Category="ngModel"
+								[(ngModel)]="item.name" required
+								[ngClass]="{'has-error': Category.invalid && Category.touched}">
 						</td>
 						<td colspan="5"></td>
 						<td title="add/remove">
 							<button class="btn btn-primary">Add</button>
 							<button class="btn btn-danger">Remove</button>
 						</td>
+					</tr>
+					<tr *ngFor="let child of item.items">
+						<td></td>
+						<td title="Item">
+							<input type="text" class="form-control" name="item_{{child.id}}" #Item="ngModel"
+								[(ngModel)]="child.name" required
+								[ngClass]="{'has-error': Item.invalid && Item.touched}">
+						</td>
+						<td title="glCode">
+							<input type="text" class="form-control" name="glcode_{{child.id}}" #glCode="ngModel"
+								[(ngModel)]="child.glCode" required pattern="^[0-9]+$"
+								[ngClass]="{'has-error': glCode.invalid && glCode.touched}">
+						</td>
+						<td title="Amount">
+							<input type="text" class="form-control" name="amount_{{child.id}}" #Amount="ngModel"
+								[(ngModel)]="child.amount" required pattern="^[0-9]+$"
+								[ngClass]="{'has-error': Amount.invalid && Amount.touched}">
+						</td>
+						<td title="Tax">
+							<select class="form-control" name="tax_{{child.id}}" #Tax="ngModel" required
+								[(ngModel)]="child.salesTax" [ngClass]="{'has-error': Tax.invalid && Tax.touched}">
+								<option value="null">--select--</option>
+								<option *ngFor="let tax of salesTaxArray" [ngValue]="tax">{{tax.name}}</option>
+							</select>
+						</td>
+						<td title="Total">
+							{{+child.amount - (+child.amount * child.salesTax?.value) | currency}}
+						</td>
+						<td><button title="remove" class="btn btn-danger">Remove</button></td>
 					</tr>
 				</tbody>
 				<tfoot></tfoot>
