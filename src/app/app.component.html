@@ -1,0 +1,85 @@
+<div class="col-xc-12">
+	<form #templateForm="ngForm" (ngSubmit)="onSubmit(templateForm)">
+		<nav class="navbar navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand">Forms test</a>
+			</div>
+		</nav>
+
+		<div>
+			<table class="table table-bordered">
+				<thead>
+					<tr class="text-center align-middle">
+						<th *ngFor="let title of itemsTitles">{{title}}</th>
+						<td><button class="btn btn-primary" (click)="addCategory()">Add Category</button></td>
+					</tr>
+				</thead>
+				<tbody *ngFor="let item of localItems">
+					<tr class="text-center">
+						<td title="Category">
+							<input type="text" class="form-control" name="cat_{{item.id}}" #Category="ngModel"
+								[(ngModel)]="item.name" required
+								[ngClass]="{'has-error': Category.invalid && Category.touched}">
+						</td>
+						<td colspan="5"></td>
+						<td title="add/remove">
+							<button class="btn btn-primary m-1" (click)="addItem(item.id)">Add Item</button>
+							<button class="btn btn-danger m-1" [disabled]="localItems.length == 1"
+								(click)="removeCategory(item.id)">Remove Category</button>
+						</td>
+					</tr>
+					<tr *ngFor="let child of item.items" class="text-center align-middle">
+						<td></td>
+						<td title="Item">
+							<input type="text" class="form-control" name="item_{{child.id}}" #Item="ngModel"
+								[(ngModel)]="child.name" required
+								[ngClass]="{'has-error': Item.invalid && Item.touched}">
+						</td>
+						<td title="glCode">
+							<input type="text" class="form-control" name="glcode_{{child.id}}" #glCode="ngModel"
+								[(ngModel)]="child.glCode" required pattern="^[0-9]+$"
+								[ngClass]="{'has-error': glCode.invalid && glCode.touched}">
+						</td>
+						<td title="Amount">
+							<input type="text" class="form-control" name="amount_{{child.id}}" #Amount="ngModel"
+								[(ngModel)]="child.amount" required pattern="^[0-9]+$"
+								[ngClass]="{'has-error': Amount.invalid && Amount.touched}"
+								(ngModelChange)="getTotal('amount')">
+						</td>
+						<td title="Tax">
+							<select class="form-control" name="tax_{{child.id}}" #Tax="ngModel" required
+								[(ngModel)]="child.salesTax" [ngClass]="{'has-error': Tax.invalid && Tax.touched}"
+								(ngModelChange)="getTotal('tax')">
+								<option value="null">--select--</option>
+								<option *ngFor="let tax of salesTaxArray" [ngValue]="tax">{{tax.name}}</option>
+							</select>
+						</td>
+						<td title="Total">
+							<!-- наверно стоит вынести расчеты из шаблона в компонент -->
+							{{child.amount - (child.amount * (child.salesTax.value || 0)) | currency}}
+						</td>
+						<td><button title="remove" class="btn btn-danger" [disabled]="item.items.length == 1"
+								(click)="removeItem(item.id)">Remove
+								Item</button></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2"></td>
+						<td title="total">
+							Total
+						</td>
+						<td title="amount" class="text-end">{{totalAmount | currency}}</td>
+						<td title="tax" class="text-end">{{totalTax | currency}}</td>
+						<td title="total" class="text-center">{{totalAmount - (totalAmount * totalTax) || 0 | currency}}
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<div class=" row">
+				<button class="btn btn-primary" (click)="onSubmit(templateForm)"
+					[disabled]="templateForm.invalid">Submit</button>
+			</div>
+		</div>
+	</form>
+</div>
